@@ -1,0 +1,14 @@
+.page-header{
+	margin-bottom:25px;
+}
+
+.page-header h1{
+	color:#6d4c41;
+	font-size:30px;
+	margin-bottom:8px;
+}
+
+.page-header p{
+	color:#777;
+	font-size:15px;
+}
