@@ -1,80 +1,36 @@
+<!-- src/routes/+layout.svelte -->
 <script>
-	import { authState, logout } from '$lib/auth.svelte.js';
-	import { goto } from '$app/navigation';
-
-	let { children } = $props();
-
-	function keluar() {
-		logout();
-		goto('/login');
-	}
+    import { authState } from '$lib/auth.svelte.js';
+    let { children } = $props();
 </script>
 
 <svelte:head>
-	<title>SIPERPUS</title>
+    <!-- Import font Google Plus Jakarta Sans agar serasi dengan komponen lainnya -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>SIPERPUS PRO</title>
 </svelte:head>
 
-<header>
-	<h2>SIPERPUS</h2>
-
-	<nav>
-		<a href="/home">Home</a>
-		<a href="/buku">Buku</a>
-		<a href="/kategori">Kategori</a>
-		<a href="/rak">Rak</a>
-
-		{#if authState.isAuthenticated}
-			<button onclick={keluar}>
-				Logout
-			</button>
-		{/if}
-	</nav>
-</header>
-
-<main>
-	{@render children()}
+<!-- Konten Utama langsung di-render tanpa Navbar cokelat atas yang mengganggu sidebar baru -->
+<main class="app-main-wrapper">
+    {@render children()}
 </main>
 
 <style>
-	header {
-		background: #6d4c41;
-		color: white;
-		padding: 15px 40px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	}
+    /* Reset CSS Global untuk konsistensi seluruh halaman */
+    :global(body) {
+        margin: 0;
+        padding: 0;
+        font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+        background-color: #f4f8fa;
+        color: #0f172a;
+        min-height: 100vh;
+    }
 
-	h2 {
-		margin: 0;
-	}
-
-	nav {
-		display: flex;
-		gap: 20px;
-		align-items: center;
-	}
-
-	a {
-		color: white;
-		text-decoration: none;
-		font-weight: bold;
-	}
-
-	a:hover {
-		text-decoration: underline;
-	}
-
-	button {
-		background: white;
-		color: #6d4c41;
-		border: none;
-		padding: 8px 14px;
-		border-radius: 5px;
-		cursor: pointer;
-	}
-
-	main {
-		padding: 30px;
-	}
+    .app-main-wrapper {
+        min-height: 100vh;
+        width: 100%;
+        box-sizing: border-box;
+    }
 </style>
