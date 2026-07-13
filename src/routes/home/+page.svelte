@@ -1,7 +1,14 @@
 <!-- src/routes/home/+page.svelte -->
-<script>
+<script lang="ts">
     import { goto } from '$app/navigation';
     import { logout } from '$lib/auth.svelte.js';
+
+    // State reaktif untuk data petugas (bisa dihubungkan ke data JWT/Auth store kamu nanti)
+    let namaPetugas = $state('Administrator'); 
+    let rolePetugas = $state('Petugas Aktif');
+
+    // Mengambil huruf pertama secara dinamis untuk inisial avatar
+    let inisialAvatar = $derived(namaPetugas.charAt(0).toUpperCase());
 
     function handleLogout() {
         if (typeof logout === 'function') {
@@ -14,48 +21,66 @@
 </script>
 
 <div class="app-layout">
-    <!-- 1. SIDEBAR NAVIGATION (TEMA BIRU MUDA RESIK) -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <span class="brand-icon">⚡</span>
-            <h2>SIPERPUS <span>PRO</span></h2>
+            <img src="/logo.png" alt="Logo Siperpus" class="brand-logo" />
+            <h2>SIPERPUS</h2>
         </div>
         
         <nav class="sidebar-menu">
             <button class="menu-item active">
-                <span class="icon">📊</span> <span class="menu-text">Dashboard</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg">
+                    <path d="M11.47 3.04a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 4.56l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z" />
+                    <path d="M4.5 10.5a.75.75 0 00-1.75 0V19.5a3 3 0 003 3h12.5a3 3 0 003-3v-9a.75.75 0 00-1.75 0v9a1.5 1.5 0 01-1.5 1.5H5.75A1.5 1.5 0 014.5 19.5v-9z" />
+                </svg>
+                <span class="menu-text">Dashboard</span>
             </button>
             <button class="menu-item" onclick={() => goto('/buku')}>
-                <span class="icon">📖</span> <span class="menu-text">Kelola Buku</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg">
+                    <path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zM12.75 12a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V18a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V12z" clip-rule="evenodd" />
+                    <path d="M14.25 5.25a.75.75 0 01.75-.75h3.625a1.75 1.75 0 011.75 1.75V9a.75.75 0 01-1.5 0V6.75h-3.875a.75.75 0 01-.75-.75z" />
+                </svg>
+                <span class="menu-text">Kelola Buku</span>
             </button>
             <button class="menu-item" onclick={() => goto('/kategori')}>
-                <span class="icon">🏷️</span> <span class="menu-text">Kategori</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg">
+                    <path fill-rule="evenodd" d="M5.25 2.25a3 3 0 00-3 3v4.318a3 3 0 00.879 2.121l9.58 9.581c9.208.749 9.853.749 10.364 0l4.318-4.318a3 3 0 000-4.242L13.82 3.129A3 3 0 0011.699 2.25H5.25zM6 6.75a.75.75 0 111.5 0 .75.75 0 01-1.5 0z" clip-rule="evenodd" />
+                </svg>
+                <span class="menu-text">Kategori</span>
             </button>
             <button class="menu-item" onclick={() => goto('/rak')}>
-                <span class="icon">🗄️</span> <span class="menu-text">Lokasi Rak</span>
+                <!-- SVG Icon Lokasi Rak -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg">
+                    <path fill-rule="evenodd" d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V5.25zm2.25-.75a.75.75 0 00-.75.75v3h15v-3a.75.75 0 00-.75-.75H5.25zm15 5.25H4.5v3.75h15V9.75zm0 5.25H4.5v3.75a.75.75 0 00.75.75h13.5a.75.75 0 00.75-.75V15zM7.5 6.75a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5z" clip-rule="evenodd" />
+                </svg>
+                <span class="menu-text">Lokasi Rak</span>
             </button>
         </nav>
 
         <div class="sidebar-footer">
             <button class="btn-logout" onclick={handleLogout}>
-                <span class="icon">🚪</span> <span class="menu-text">Keluar Aplikasi</span>
+                <!-- SVG Icon Logout -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="logout-svg">
+                    <path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9a.75.75 0 01-1.5 0V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd" />
+                </svg>
+                <span class="menu-text">Keluar Aplikasi</span>
             </button>
         </div>
     </aside>
 
     <!-- MAIN CONTENT AREA -->
     <main class="main-content">
-        <!-- 2. TOP NAVBAR -->
+        <!-- 2. TOP NAVBAR DENGAN PROFIL PETUGAS DINAMIS -->
         <header class="top-navbar">
             <div class="welcome-text">
-                <h3>Selamat Datang, Petugas 👋</h3>
+                <h3>Selamat Datang, {namaPetugas}</h3>
                 <p>Berikut ringkasan data sistem informasi perpustakaan hari ini.</p>
             </div>
             <div class="user-profile">
-                <div class="avatar">A</div>
+                <div class="avatar">{inisialAvatar}</div>
                 <div class="user-info">
-                    <span class="name">Administrator</span>
-                    <span class="role">Petugas Aktif</span>
+                    <span class="name">{namaPetugas}</span>
+                    <span class="role">{rolePetugas}</span>
                 </div>
             </div>
         </header>
@@ -66,16 +91,22 @@
             <!-- Card Buku -->
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="icon-wrapper book-icon">📚</div>
-                    <span class="badge badge-blue">Katalog</span>
+                    <div class="icon-wrapper book-icon">
+                        <!-- SVG Icon Buku di dalam Card -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="card-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                    </div>
+                    <span class="badge badge-blue">Buku</span>
                 </div>
                 <div class="stat-body">
-                    <h4>Katalog Data Buku</h4>
+                    <h4>Data Buku</h4>
                     <p>Kelola seluruh koleksi pustaka, mulai dari judul, penulis, penerbit, hingga tahun terbit buku.</p>
                 </div>
                 <div class="stat-footer">
                     <button class="btn-action" onclick={() => goto('/buku')}>
-                        Buka Manajemen Buku <span class="arrow">→</span>
+                        Buka Manajemen Buku 
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="arrow-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                     </button>
                 </div>
             </div>
@@ -83,7 +114,13 @@
             <!-- Card Kategori -->
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="icon-wrapper category-icon">🏷️</div>
+                    <div class="icon-wrapper category-icon">
+                        <!-- SVG Icon Kategori Tag -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="card-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 003.182 0l4.318-4.318a2.25 2.25 0 000-3.182L11.16 3.659A2.25 2.25 0 009.568 3z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
+                        </svg>
+                    </div>
                     <span class="badge badge-cyan">Sistem</span>
                 </div>
                 <div class="stat-body">
@@ -92,7 +129,8 @@
                 </div>
                 <div class="stat-footer">
                     <button class="btn-action" onclick={() => goto('/kategori')}>
-                        Buka Kategori <span class="arrow">→</span>
+                        Buka Kategori 
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="arrow-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                     </button>
                 </div>
             </div>
@@ -100,7 +138,12 @@
             <!-- Card Rak -->
             <div class="stat-card">
                 <div class="stat-header">
-                    <div class="icon-wrapper rak-icon">🗄️</div>
+                    <div class="icon-wrapper rak-icon">
+                        <!-- SVG Icon Lemari Rak -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="card-icon-svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h12A2.25 2.25 0 0120.25 6v12A2.25 2.25 0 0118 20.25H6A2.25 2.25 0 013.75 18V6zM3.75 9h16.5M3.75 14.25h16.5M9 3.75v16.5M15 3.75v16.5" />
+                        </svg>
+                    </div>
                     <span class="badge badge-indigo">Fisik</span>
                 </div>
                 <div class="stat-body">
@@ -109,7 +152,8 @@
                 </div>
                 <div class="stat-footer">
                     <button class="btn-action" onclick={() => goto('/rak')}>
-                        Atur Posisi Rak <span class="arrow">→</span>
+                        Atur Posisi Rak 
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="arrow-svg"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                     </button>
                 </div>
             </div>
@@ -124,7 +168,7 @@
         margin: 0;
         padding: 0;
         font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-        background-color: #f4f8fa; /* Soft blue-gray light background */
+        background-color: #f4f8fa;
         color: #0f172a;
         overflow-x: hidden;
     }
@@ -151,16 +195,18 @@
     .sidebar-brand {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 12px;
         margin-bottom: 36px;
     }
 
-    .brand-icon {
-        font-size: 22px;
+    .brand-logo {
+        height: 28px;
+        width: 28px;
+        object-fit: contain;
     }
 
     .sidebar-brand h2 {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 800;
         color: #0f172a;
         margin: 0;
@@ -168,7 +214,7 @@
     }
 
     .sidebar-brand h2 span {
-        font-size: 11px;
+        font-size: 10px;
         background: #e0f2fe;
         color: #0284c7;
         padding: 2px 6px;
@@ -200,8 +246,13 @@
         transition: all 0.2s ease;
     }
 
-    .menu-item .icon {
-        font-size: 16px;
+    /* SVG UNTUK SIDEBAR */
+    .sidebar-svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        color: #94a3b8;
+        transition: color 0.2s ease;
     }
 
     .menu-item:hover {
@@ -209,9 +260,17 @@
         color: #0284c7;
     }
 
+    .menu-item:hover .sidebar-svg {
+        color: #0284c7;
+    }
+
     /* Tombol Menu Aktif - Soft Blue Cyan Highlight */
     .menu-item.active {
         background-color: #e0f2fe;
+        color: #0284c7;
+    }
+
+    .menu-item.active .sidebar-svg {
         color: #0284c7;
     }
 
@@ -234,6 +293,12 @@
         cursor: pointer;
         border-radius: 12px;
         transition: all 0.2s;
+    }
+
+    .logout-svg {
+        width: 18px;
+        height: 18px;
+        color: #ef4444;
     }
 
     .btn-logout:hover {
@@ -286,14 +351,14 @@
     .avatar {
         width: 36px;
         height: 36px;
-        background-color: #38bdf8; /* Avatar warna cerah Sky Blue */
+        background-color: #0284c7; /* Avatar warna cerah Sky Blue */
         color: white;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 700;
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .user-info {
@@ -309,10 +374,11 @@
 
     .user-info .role {
         font-size: 11px;
-        color: #94a3b8;
+        color: #64748b;
+        font-weight: 500;
     }
 
-    /* ==================== 3. CARDS DASHBOARD (SOFT GRADIENT GLOW) ==================== */
+    /* ==================== 3. CARDS DASHBOARD ==================== */
     .dashboard-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -351,10 +417,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
     }
 
-    /* Set Icon Background Mengikuti Nuansa Biru/Sian */
+    .card-icon-svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Set Icon Background & Stroke Mengikuti Nuansa Biru/Sian */
     .book-icon { background-color: #e0f2fe; color: #0369a1; }
     .category-icon { background-color: #ecfeff; color: #0e7490; }
     .rak-icon { background-color: #e0e7ff; color: #4338ca; }
@@ -401,7 +471,9 @@
         transition: all 0.2s ease;
     }
 
-    .btn-action .arrow {
+    .arrow-svg {
+        width: 14px;
+        height: 14px;
         transition: transform 0.2s ease;
     }
 
@@ -409,7 +481,7 @@
         color: #0369a1;
     }
 
-    .stat-card:hover .btn-action .arrow {
+    .stat-card:hover .btn-action .arrow-svg {
         transform: translateX(4px);
     }
 

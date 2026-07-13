@@ -1,15 +1,10 @@
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
-    import { authState, logout } from '$lib/auth.svelte.js'; 
+    import { authState, logout } from '$lib/auth.svelte.js';
 
+    const logoUrl = "/logo.png";
 
-    import logoAsset from '../../static/logo.png';
-
-    let logoUrl = $state<string>(logoAsset);;
-
-    // Jika petugas sudah login, langsung lempar otomatis ke halaman manajemen buku
     onMount(() => {
         if (authState.isAuthenticated) {
             goto('/buku');
@@ -41,13 +36,12 @@
             <span class="app-badge">SIPERPUS DIGITAL v2.0</span>
             
             <p class="app-subtitle">
-                Selamat datang! Cari koleksi buku, cek ketersediaan stok, dan temukan posisi rak penyimpanan secara mandiri tanpa perlu masuk akun.
+              Selamat datang di Sistem Informasi Perpustakaan. Sistem ini membantu Anda mencari koleksi buku, melihat ketersediaan stok, dan mengetahui lokasi rak penyimpanan secara cepat dan mudah tanpa perlu login.
             </p>
         </header>
 
         <div class="divider-line"></div>
 
-        <!-- SEKSI MENU UTAMA -->
         <section class="navigation-menu-grid">
             <a href="/katalog" class="menu-nav-card">
                 <div class="card-icon-box icon-search">
@@ -72,7 +66,6 @@
             </a>
         </section>
 
-        <!-- FOOTER -->
         <footer class="app-footer">
             <p>© 2026 SIPERPUS — Dikembangkan untuk Kemudahan Akses Literasi</p>
         </footer>
@@ -80,15 +73,12 @@
 </div>
 
 <style>
-    /* UTILITY RESET (Font diwarisi dari +layout.svelte) */
     :global(body) {
         margin: 0;
         padding: 0;
         background-color: #f4f8fa;
         overflow-x: hidden;
     }
-
-    /* CONTAINER UTAMA DENGAN BACKGROUND GRADASI LEMBUT */
     .landing-hero-wrapper {
         min-height: 100vh;
         width: 100vw;
@@ -100,8 +90,6 @@
         padding: 40px 20px;
         box-sizing: border-box;
     }
-
-    /* DEKORASI BACKDROP BLURRY TEMA CYAN-SKY */
     .bg-blob {
         position: absolute;
         width: 450px;
@@ -114,7 +102,6 @@
     .blob-1 { background: #0ea5e9; top: -100px; left: -50px; } /* Sky Blue */
     .blob-2 { background: #06b6d4; bottom: -100px; right: -50px; } /* Cyan */
 
-    /* CARD CONTAINER UTAMA (GLASSMORPHISM EFFECT) */
     .main-card-container {
         position: relative;
         z-index: 2;
@@ -131,7 +118,6 @@
         text-align: center;
     }
 
-    /* BRAND LOGO */
     .brand-header {
         display: flex;
         flex-direction: column;
@@ -140,20 +126,22 @@
     .logo-wrapper {
         margin-bottom: 24px;
     }
+    
     .app-logo-img {
-        height: 80px;
+        height: 110px;
         object-fit: contain;
     }
+    
     .default-logo-icon {
         position: relative;
-        width: 76px;
-        height: 76px;
+        width: 96px;
+        height: 96px;
         background: linear-gradient(135deg, #e0f2fe 0%, #cffafe 100%);
-        border-radius: 20px;
+        border-radius: 24px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 34px;
+        font-size: 42px;
         box-shadow: 0 10px 20px -4px rgba(2, 132, 199, 0.15);
     }
     .icon-layer { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
@@ -161,28 +149,31 @@
 
     /* TEXT HEADER */
     .app-title {
-        font-size: 30px;
+        font-size: 38px;
         font-weight: 800;
         color: #0f172a;
-        margin: 0 0 12px 0;
-        letter-spacing: -0.75px;
+        margin: 0 0 16px 0;
+        letter-spacing: -1px;
+        line-height: 1.2;
     }
+    
     .app-badge {
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
         color: #0284c7;
         background: #e0f2fe;
-        padding: 4px 14px;
+        padding: 6px 18px;
         border-radius: 20px;
         letter-spacing: 0.5px;
         border: 1px solid #bae6fd;
     }
+    
     .app-subtitle {
-        font-size: 14px;
+        font-size: 16px;
         color: #64748b;
         line-height: 1.6;
-        max-width: 540px;
-        margin: 20px 0 0 0;
+        max-width: 560px;
+        margin: 24px 0 0 0;
     }
 
     .divider-line {
@@ -275,8 +266,11 @@
 
     /* RESPONSIVE LAYOUT FOR MOBILE */
     @media (max-width: 640px) {
-        .main-card-container { padding: 28px 20px; }
-        .app-title { font-size: 24px; }
+        .main-card-container { padding: 32px 20px; }
+        .app-logo-img { height: 90px; }
+        .default-logo-icon { width: 80px; height: 80px; font-size: 34px; }
+        .app-title { font-size: 28px; }
+        .app-subtitle { font-size: 14px; margin: 18px 0 0 0; }
         .menu-nav-card { padding: 16px; }
         .card-icon-box { width: 46px; height: 46px; margin-right: 14px; }
         .emoji-icon { font-size: 18px; }

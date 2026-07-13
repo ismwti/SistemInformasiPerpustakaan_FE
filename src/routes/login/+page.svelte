@@ -1,30 +1,30 @@
-<!-- src/routes/login/+page.svelte -->
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { loginSuccess } from '$lib/auth.svelte.js';
 
-    // Menggunakan Runes $state milikmu agar reaktif di Svelte 5
     let email = $state('');
     let password = $state('');
     let error = $state('');
     let loading = $state(false);
 
+    // Fungsi untuk memaksa navigasi keluar dari grup routing login ke halaman root absolute
+    function kembaliKeUtama(e: Event) {
+        e.preventDefault();
+        goto('/', { replaceState: true });
+    }
+
     async function login(e: Event) {
-        e.preventDefault(); // Mencegah reload halaman saat submit
+        e.preventDefault(); 
         error = '';
         loading = true;
 
         try {
-            // Menggunakan endpoint asli milik backend kamu yang terbukti bisa
             const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
+                body: JSON.stringify({ email, password })
             });
 
             const data = await response.json();
@@ -34,10 +34,7 @@
                 return;
             }
 
-            // Menjalankan fungsi auth state bawaan project kamu
             loginSuccess(data.token);
-
-            // Menuju halaman home petugas
             goto('/home');
         } catch (err) {
             console.error('Login error:', err);
@@ -49,20 +46,24 @@
 </script>
 
 <div class="login-wrapper">
-    <!-- Dekorasi Background Elegan Gen-Z (Blob Gradasi Biru Muda Pastel) -->
     <div class="bg-blob blob-1"></div>
     <div class="bg-blob blob-2"></div>
 
     <div class="login-card">
         <header class="login-header">
-            <div class="login-icon">⚡</div>
+            <div class="login-logo-container">
+                <img src="/logo.png" alt="Logo Siperpus" class="login-logo" />
+            </div>
             <h2>Akses Petugas <span>SIPERPUS</span></h2>
-            <p>Silakan masuk menggunakan akun petugas yang terdaftar di database.</p>
+            <p>Silakan login menggunakan akun petugas untuk mengakses fitur pengelolaan data perpustakaan.</p>
         </header>
 
         {#if error}
             <div class="error-box">
-                <span class="error-icon">⚠️</span> {error}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon-svg error-icon">
+                    <path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" />
+                </svg>
+                {error}
             </div>
         {/if}
 
@@ -70,7 +71,9 @@
             <div class="input-group">
                 <label for="email">EMAIL ADMIN</label>
                 <div class="input-wrapper-inner">
-                    <span class="field-icon">👤</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="field-icon-svg">
+                        <path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd" />
+                    </svg>
                     <input 
                         type="email" 
                         id="email" 
@@ -84,7 +87,9 @@
             <div class="input-group">
                 <label for="password">PASSWORD</label>
                 <div class="input-wrapper-inner">
-                    <span class="field-icon">🔒</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="field-icon-svg">
+                        <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
+                    </svg>
                     <input 
                         type="password" 
                         id="password" 
@@ -99,26 +104,28 @@
                 {#if loading}
                     <span class="mini-spinner"></span> Memverifikasi data...
                 {:else}
-                    Masuk ke Sistem Dashboard 🚀
+                    Masuk ke Sistem Dashboard
                 {/if}
             </button>
         </form>
 
-        <a href="/" class="btn-back">
-            <span>⬅️</span> Kembali ke Halaman Utama
-        </a>
+        <button type="button" onclick={kembaliKeUtama} class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="icon-svg">
+                <path fill-rule="evenodd" d="M9.53 4.47a.75.75 0 010 1.06L4.81 10.25H21a.75.75 0 010 1.5H4.81l4.72 4.72a.75.75 0 11-1.06 1.06l-6-6a.75.75 0 010-1.06l6-6a.75.75 0 011.06 0z" clip-rule="evenodd" />
+            </svg>
+            Kembali ke Halaman Utama
+        </button>
     </div>
 </div>
 
 <style>
-    /* DESAIN PREMIUM GEN-Z LIGHT BLUE & CYAN MIX */
     .login-wrapper {
         min-height: 100vh;
         width: 100vw;
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #f0f6fa; /* Latar abu-abu cerah dengan hint biru muda */
+        background: #f0f6fa;
         padding: 20px;
         box-sizing: border-box;
         position: relative;
@@ -136,8 +143,8 @@
         opacity: 0.4;
         z-index: 1;
     }
-    .blob-1 { background: #38bdf8; top: -100px; left: -100px; } /* Sky blue */
-    .blob-2 { background: #06b6d4; bottom: -100px; right: -100px; } /* Cyan */
+    .blob-1 { background: #38bdf8; top: -100px; left: -100px; }
+    .blob-2 { background: #06b6d4; bottom: -100px; right: -100px; }
 
     /* CARD LOGIN SMOOTH CORNER */
     .login-card {
@@ -150,16 +157,25 @@
         padding: 40px;
         max-width: 440px;
         width: 100%;
-        border-radius: 24px; /* Sudut membulat modern */
+        border-radius: 24px;
         box-shadow: 0 20px 40px -15px rgba(14, 165, 233, 0.12);
         box-sizing: border-box;
     }
 
     /* HEADER */
     .login-header { text-align: center; margin-bottom: 32px; }
-    .login-icon { font-size: 32px; margin-bottom: 12px; }
+    .login-logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+    .login-logo {
+        height: 48px;
+        width: 48px;
+        object-fit: contain;
+    }
     .login-header h2 { margin: 0 0 8px 0; color: #0f172a; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-    .login-header h2 span { color: #0284c7; } /* Aksen warna teks */
+    .login-header h2 span { color: #0284c7; }
     .login-header p { margin: 0; color: #64748b; font-size: 14px; line-height: 1.5; }
     
     /* INPUT COMPONENT */
@@ -172,16 +188,20 @@
         display: flex;
         align-items: center;
     }
-    .field-icon {
+    
+    /* STYLE UNTUK ICON SVG DI DALAM INPUT */
+    .field-icon-svg {
         position: absolute;
         left: 16px;
-        font-size: 16px;
+        width: 18px;
+        height: 18px;
         color: #94a3b8;
+        pointer-events: none;
     }
 
     input { 
         width: 100%;
-        padding: 14px 16px 14px 44px; /* Space buat icon dalam input */
+        padding: 14px 16px 14px 46px; 
         border: 1px solid #e2e8f0; 
         background: #f8fafc;
         border-radius: 12px; 
@@ -195,6 +215,9 @@
         border-color: #38bdf8; 
         background: #ffffff;
         box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15); 
+    }
+    input:focus + .field-icon-svg {
+        color: #38bdf8;
     }
     input::placeholder { color: #cbd5e1; }
     
@@ -238,21 +261,37 @@
         align-items: center;
         gap: 8px;
     }
+    
+    /* GENERAL SVG UTILITY ICON */
+    .icon-svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+    .error-icon {
+        color: #ef4444;
+    }
 
-    /* BUTTON BACK OUTLINE */
+    /* BUTTON BACK OUTLINE (SUDAH DI-RESET DARI TAG <a> KE <button>) */
     .btn-back { 
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 8px;
         margin-top: 24px; 
         font-size: 13px; 
         color: #64748b; 
         text-decoration: none; 
         font-weight: 600; 
         transition: color 0.2s;
+        /* Reset bawaan button */
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        width: 100%;
     }
     .btn-back:hover { color: #0284c7; }
+    .btn-back:hover .icon-svg { color: #0284c7; }
 
     /* MINI LOADING SPINNER */
     .mini-spinner {
