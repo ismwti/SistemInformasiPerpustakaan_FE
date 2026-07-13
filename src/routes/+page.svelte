@@ -7,7 +7,7 @@
 
     onMount(() => {
         if (authState.isAuthenticated) {
-            goto('/buku');
+            goto('/');
         }
     });
 </script>
