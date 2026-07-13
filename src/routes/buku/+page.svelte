@@ -76,11 +76,29 @@
         id_kategori = buku.kategori?.id ? String(buku.kategori.id) : (buku.idKategori ? String(buku.idKategori) : '');
         id_rak = buku.rak?.id ? String(buku.rak.id) : (buku.idRak ? String(buku.idRak) : '');
         
+        
+
+        id_kategori = buku.kategori?.id ? String(buku.kategori.id) : (buku.idKategori ? String(buku.idKategori) : '');
+        id_rak = buku.rak?.id ? String(buku.rak.id) : (buku.idRak ? String(buku.idRak) : '');
+        
         isFormOpen = true; 
     }
 
     async function simpanBuku(e: Event) {
         e.preventDefault();
+        
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Sesi Anda habis atau token tidak ditemukan. Silakan login ulang.');
+            goto('/login');
+            return;
+        }
+
+        const pesanKonfirmasi = idBukuTerpilih 
+            ? 'Yakin mau update data buku ini?' 
+            : 'Yakin mau menambahkan buku baru ini ke koleksi?';
+            
+        if (!confirm(pesanKonfirmasi)) return;
         
         const token = localStorage.getItem('token');
         if (!token) {
@@ -114,11 +132,19 @@
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     body: JSON.stringify(payload)
                 });
             } else {
                 respon = await fetch(`${API_URL}/buku`, {
                     method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
                     headers: { 
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
@@ -150,8 +176,17 @@
             return;
         }
 
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('Token tidak ditemukan. Silakan login ulang.');
+            goto('/login');
+            return;
+        }
+
         try {
             const respon = await fetch(`${API_URL}/buku/${id}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -192,27 +227,39 @@
         <div class="sidebar-brand">
             <img src="/logo.png" alt="Logo Siperpus" class="brand-logo" />
             <h2>SIPERPUS</h2>
+            <img src="/logo.png" alt="Logo Siperpus" class="brand-logo" />
+            <h2>SIPERPUS</h2>
         </div>
         <nav class="sidebar-menu">
             <button class="menu-item" onclick={() => goto('/home')}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path d="M11.47 3.04a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 4.56l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z" /><path d="M4.5 10.5a.75.75 0 00-1.75 0V19.5a3 3 0 003 3h12.5a3 3 0 003-3v-9a.75.75 0 00-1.75 0v9a1.5 1.5 0 01-1.5 1.5H5.75A1.5 1.5 0 014.5 19.5v-9z" /></svg>
+                <span class="menu-text">Dashboard</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path d="M11.47 3.04a.75.75 0 011.06 0l7.5 7.5a.75.75 0 11-1.06 1.06L12 4.56l-6.97 6.97a.75.75 0 01-1.06-1.06l7.5-7.5z" /><path d="M4.5 10.5a.75.75 0 00-1.75 0V19.5a3 3 0 003 3h12.5a3 3 0 003-3v-9a.75.75 0 00-1.75 0v9a1.5 1.5 0 01-1.5 1.5H5.75A1.5 1.5 0 014.5 19.5v-9z" /></svg>
                 <span class="menu-text">Dashboard</span>
             </button>
             <button class="menu-item active">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zM12.75 12a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V18a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V12z" clip-rule="evenodd" /><path d="M14.25 5.25a.75.75 0 01.75-.75h3.625a1.75 1.75 0 011.75 1.75V9a.75.75 0 01-1.5 0V6.75h-3.875a.75.75 0 01-.75-.75z" /></svg>
                 <span class="menu-text">Kelola Buku</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M5.625 1.5H9a3.75 3.75 0 013.75 3.75v1.875c0 1.036.84 1.875 1.875 1.875H16.5a3.75 3.75 0 013.75 3.75v7.875c0 1.035-.84 1.875-1.875 1.875H5.625a1.875 1.875 0 01-1.875-1.875V3.375c0-1.036.84-1.875 1.875-1.875zM12.75 12a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V18a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V12z" clip-rule="evenodd" /><path d="M14.25 5.25a.75.75 0 01.75-.75h3.625a1.75 1.75 0 011.75 1.75V9a.75.75 0 01-1.5 0V6.75h-3.875a.75.75 0 01-.75-.75z" /></svg>
+                <span class="menu-text">Kelola Buku</span>
             </button>
             <button class="menu-item" onclick={() => goto('/kategori')}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M5.25 2.25a3 3 0 00-3 3v4.318a3 3 0 00.879 2.121l9.58 9.581c9.208.749 9.853.749 10.364 0l4.318-4.318a3 3 0 000-4.242L13.82 3.129A3 3 0 0011.699 2.25H5.25zM6 6.75a.75.75 0 111.5 0 .75.75 0 01-1.5 0z" clip-rule="evenodd" /></svg>
+                <span class="menu-text">Kategori</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M5.25 2.25a3 3 0 00-3 3v4.318a3 3 0 00.879 2.121l9.58 9.581c9.208.749 9.853.749 10.364 0l4.318-4.318a3 3 0 000-4.242L13.82 3.129A3 3 0 0011.699 2.25H5.25zM6 6.75a.75.75 0 111.5 0 .75.75 0 01-1.5 0z" clip-rule="evenodd" /></svg>
                 <span class="menu-text">Kategori</span>
             </button>
             <button class="menu-item" onclick={() => goto('/rak')}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V5.25zm2.25-.75a.75.75 0 00-.75.75v3h15v-3a.75.75 0 00-.75-.75H5.25zm15 5.25H4.5v3.75h15V9.75zm0 5.25H4.5v3.75a.75.75 0 00.75.75h13.5a.75.75 0 00.75-.75V15zM7.5 6.75a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5z" clip-rule="evenodd" /></svg>
                 <span class="menu-text">Lokasi Rak</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="sidebar-svg"><path fill-rule="evenodd" d="M3 5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25v13.5A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75V5.25zm2.25-.75a.75.75 0 00-.75.75v3h15v-3a.75.75 0 00-.75-.75H5.25zm15 5.25H4.5v3.75h15V9.75zm0 5.25H4.5v3.75a.75.75 0 00.75.75h13.5a.75.75 0 00.75-.75V15zM7.5 6.75a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5zm0 5.25a.75.75 0 100 1.5.75.75 0 000-1.5z" clip-rule="evenodd" /></svg>
+                <span class="menu-text">Lokasi Rak</span>
             </button>
         </nav>
         <div class="sidebar-footer">
             <button class="btn-logout" onclick={handleLogout}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="logout-svg"><path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9a.75.75 0 01-1.5 0V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd" /></svg>
+                <span class="menu-text">Keluar Aplikasi</span>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="logout-svg"><path fill-rule="evenodd" d="M7.5 3.75A1.5 1.5 0 006 5.25v13.5a1.5 1.5 0 001.5 1.5h6a1.5 1.5 0 001.5-1.5V15a.75.75 0 011.5 0v3.75a3 3 0 01-3 3h-6a3 3 0 01-3-3V5.25a3 3 0 013-3h6a3 3 0 013 3V9a.75.75 0 01-1.5 0V5.25a1.5 1.5 0 00-1.5-1.5h-6zm10.72 4.72a.75.75 0 011.06 0l3 3a.75.75 0 010 1.06l-3 3a.75.75 0 11-1.06-1.06l1.72-1.72H9a.75.75 0 010-1.5h10.94l-1.72-1.72a.75.75 0 010-1.06z" clip-rule="evenodd" /></svg>
                 <span class="menu-text">Keluar Aplikasi</span>
             </button>
@@ -226,6 +273,8 @@
                 <p>Kelola seluruh pustaka sistem informasi perpustakaan secara real-time.</p>
             </div>
             <button class="btn-primary-trigger" onclick={bukaFormTambah}>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="btn-icon-svg"><path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
+                Tambah Buku Baru
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="btn-icon-svg"><path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" /></svg>
                 Tambah Buku Baru
             </button>
@@ -246,9 +295,12 @@
                 <div class="alert-zone error">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="alert-icon-svg"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" /></svg>
                     <p>{errorMsg}</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="alert-icon-svg"><path fill-rule="evenodd" d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clip-rule="evenodd" /></svg>
+                    <p>{errorMsg}</p>
                 </div>
             {:else if daftarBuku.length === 0}
                 <div class="alert-zone empty">
+                    <p>Catalog kosong melompong. Klik tombol di atas buat nambahin.</p>
                     <p>Catalog kosong melompong. Klik tombol di atas buat nambahin.</p>
                 </div>
             {:else}
@@ -280,8 +332,10 @@
                                         <div class="action-flex">
                                             <button class="action-btn edit" onclick={() => editBuku(item)} title="Edit">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="action-icon"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" /></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="action-icon"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z" /></svg>
                                             </button>
                                             <button class="action-btn delete" onclick={() => hapusBuku(item.id)} title="Delete">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="action-icon"><path fill-rule="evenodd" d="M16.5 4.478v-.227a3.322 3.322 0 00-3.478-3.478h-.043a3.322 3.322 0 00-3.478 3.478v.227H6.151c-1.18 0-2.14.945-2.164 2.124l-.071 3.497a1.81 1.81 0 001.216 1.724L5.35 19.34a3.375 3.375 0 003.364 3.16h6.572a3.375 3.375 0 003.364-3.16l.23-8.52a1.81 1.81 0 001.216-1.724l-.071-3.497a2.167 2.167 0 00-2.164-2.124H16.5zM10.5 8.25a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V8.25zm3 0a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V8.25z" clip-rule="evenodd" /></svg>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="action-icon"><path fill-rule="evenodd" d="M16.5 4.478v-.227a3.322 3.322 0 00-3.478-3.478h-.043a3.322 3.322 0 00-3.478 3.478v.227H6.151c-1.18 0-2.14.945-2.164 2.124l-.071 3.497a1.81 1.81 0 001.216 1.724L5.35 19.34a3.375 3.375 0 003.364 3.16h6.572a3.375 3.375 0 003.364-3.16l.23-8.52a1.81 1.81 0 001.216-1.724l-.071-3.497a2.167 2.167 0 00-2.164-2.124H16.5zM10.5 8.25a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V8.25zm3 0a.75.75 0 00-1.5 0v8.25a.75.75 0 001.5 0V8.25z" clip-rule="evenodd" /></svg>
                                             </button>
                                         </div>
@@ -299,6 +353,7 @@
         <div class="drawer-overlay" onclick={() => isFormOpen = false} role="presentation"></div>
         <div class="drawer-container">
             <div class="drawer-header">
+                <h3>{idBukuTerpilih ? 'Update Data Buku' : 'Tambah Koleksi Baru'}</h3>
                 <h3>{idBukuTerpilih ? 'Update Data Buku' : 'Tambah Koleksi Baru'}</h3>
                 <button class="close-drawer" onclick={() => isFormOpen = false}>×</button>
             </div>
@@ -337,6 +392,7 @@
                         <option value="">-- Pilih Kategori --</option>
                         {#each daftarKategori as kat}
                             <option value={String(kat.id)}>{kat.namaKategori || kat.nama_kategori}</option>
+                            <option value={String(kat.id)}>{kat.namaKategori || kat.nama_kategori}</option>
                         {/each}
                     </select>
                 </div>
@@ -347,12 +403,15 @@
                         <option value="">-- Pilih Kode Rak --</option>
                         {#each daftarRak as r}
                             <option value={String(r.id)}>{r.kodeRak || r.kode_rak} {r.lokasi ? `(${r.lokasi})` : ''}</option>
+                            <option value={String(r.id)}>{r.kodeRak || r.kode_rak} {r.lokasi ? `(${r.lokasi})` : ''}</option>
                         {/each}
                     </select>
                 </div>
 
                 <div class="drawer-actions">
                     <button type="submit" class="btn-submit-form">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="btn-icon-form"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg>
+                        {idBukuTerpilih ? 'Simpan Perubahan' : 'Publish Buku'}
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="btn-icon-form"><path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" /></svg>
                         {idBukuTerpilih ? 'Simpan Perubahan' : 'Publish Buku'}
                     </button>
