@@ -45,24 +45,44 @@
         <section class="navigation-menu-grid">
             <a href="/katalog" class="menu-nav-card">
                 <div class="card-icon-box icon-search">
-                    <span class="emoji-icon">🔍</span>
+                    <!-- SVG Kaca Pembesar Modern -->
+                    <svg class="modern-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                 </div>
                 <div class="card-text-block">
                     <h3>Cari & Lihat Katalog</h3>
                     <p>Daftar koleksi buku, kategori, dan lokasi rak fisik real-time.</p>
                 </div>
-                <div class="arrow-indicator">➡️</div>
+                <div class="arrow-indicator">
+                    <!-- SVG Panah Modern -->
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
             </a>
 
             <a href="/login" class="menu-nav-card">
                 <div class="card-icon-box icon-admin">
-                    <span class="emoji-icon">🔐</span>
+                    <!-- SVG Gembok Modern -->
+                    <svg class="modern-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
                 </div>
                 <div class="card-text-block">
                     <h3>Area Petugas</h3>
                     <p>Masuk ke sistem manajemen, pembaruan data, dan kelola rak.</p>
                 </div>
-                <div class="arrow-indicator">➡️</div>
+                <div class="arrow-indicator">
+                    <!-- SVG Panah Modern -->
+                    <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </div>
             </a>
         </section>
 
@@ -202,8 +222,8 @@
     }
     .menu-nav-card:hover {
         transform: translateY(-2px);
-        border-color: #cbd5e1;
-        box-shadow: 0 12px 24px -10px rgba(14, 165, 233, 0.1);
+        border-color: #bae6fd;
+        box-shadow: 0 12px 24px -10px rgba(14, 165, 233, 0.15);
         background: #f8fafc;
     }
 
@@ -218,12 +238,26 @@
         margin-right: 20px;
         transition: transform 0.2s ease;
     }
-    .icon-search { background: #ecfeff; border: 1px solid #cffafe; } /* Cyan */
-    .icon-admin { background: #f0f9ff; border: 1px solid #e0f2fe; }  /* Sky Blue */
-    .emoji-icon { font-size: 22px; }
+    .icon-search { 
+        background: #ecfeff; 
+        border: 1px solid #cffafe; 
+        color: #0891b2; 
+    } 
+    .icon-admin { 
+        background: #f0f9ff; 
+        border: 1px solid #e0f2fe; 
+        color: #0284c7; 
+    }
     
+    /* STYLE UNTUK SVG MODERN */
+    .modern-icon {
+        width: 24px;
+        height: 24px;
+        stroke-width: 2;
+    }
+
     .menu-nav-card:hover .card-icon-box {
-        transform: scale(1.05);
+        transform: scale(1.08);
     }
 
     /* CARD TEXTS */
@@ -243,18 +277,23 @@
         line-height: 1.4;
     }
 
-    /* ARROW INDICATOR */
+    /* ARROW INDICATOR STYLES */
     .arrow-indicator {
-        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         opacity: 0;
         transform: translateX(-10px);
-        transition: all 0.2s ease;
-        color: #94a3b8;
+        transition: all 0.25s ease;
+        color: #0284c7;
+    }
+    .arrow-icon {
+        width: 20px;
+        height: 20px;
     }
     .menu-nav-card:hover .arrow-indicator {
         opacity: 1;
         transform: translateX(0);
-        color: #0284c7;
     }
 
     /* FOOTER */
@@ -273,6 +312,6 @@
         .app-subtitle { font-size: 14px; margin: 18px 0 0 0; }
         .menu-nav-card { padding: 16px; }
         .card-icon-box { width: 46px; height: 46px; margin-right: 14px; }
-        .emoji-icon { font-size: 18px; }
+        .modern-icon { width: 20px; height: 20px; }
     }
 </style>
