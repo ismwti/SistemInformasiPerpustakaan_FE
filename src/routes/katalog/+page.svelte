@@ -110,7 +110,6 @@
             </div>
         </div>
 
-        <!-- LIST GRID UTAMA -->
         {#if loading}
             <div class="status-msg">
                 <div class="spinner"></div>
@@ -162,13 +161,10 @@
 
     .app-layout { display: flex; min-height: 100vh; }
 
-    /* SIDEBAR STYLES */
     .sidebar {
         width: 260px; background: white; border-right: 1px solid #e2e8f0;
         display: flex; flex-direction: column; padding: 24px; position: fixed; height: 100vh; box-sizing: border-box;
     }
-    
-    /* Mengatur tata letak Logo Baru dan teks Brand agar sejajar */
     .sidebar-brand { 
         display: flex; 
         align-items: center; 
@@ -181,7 +177,6 @@
         object-fit: contain;
     }
     .sidebar-brand h2 { font-size: 20px; font-weight: 800; margin: 0; letter-spacing: -0.5px; }
-    .sidebar-brand h2 span { font-size: 11px; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 6px; margin-left: 4px; }
     
     .sidebar-menu { display: flex; flex-direction: column; gap: 6px; flex-grow: 1; }
     
@@ -197,19 +192,16 @@
         padding: 12px 16px; color: #0284c7; font-weight: 600; font-size: 14px; cursor: pointer; border-radius: 12px; transition: background 0.2s;
     }
     .btn-login-back:hover { background-color: #f0f6fa; }
-
-    /* CONTENT STYLE */
     .main-content { flex-grow: 1; margin-left: 260px; padding: 40px; box-sizing: border-box; }
     .katalog-header h2 { font-size: 24px; font-weight: 800; margin: 0 0 4px 0; }
     .katalog-header p { color: #64748b; margin: 0 0 36px 0; font-size: 14px; }
 
-    /* SEARCH BAR & FILTER (BERSIH DARI ICON DEKORATIF) */
+
     .search-filter-bar { display: flex; gap: 16px; margin-bottom: 30px; }
     .search-input-box { flex: 1; display: flex; align-items: center; background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0 20px; }
     .search-input-box input { border: none; width: 100%; padding: 14px 0; outline: none; font-size: 14px; background: transparent; }
     .filter-box select { padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 12px; background: white; outline: none; font-size: 14px; cursor: pointer; color: #0f172a; }
 
-    /* GRID DATA BUKU */
     .katalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
     .katalog-card { 
         background: white; border: 1px solid #e2e8f0; border-radius: 14px; 
@@ -235,7 +227,6 @@
     .interstate-stok { color: #16a34a; }
     .interstate-stok.habis { color: #ef4444; }
 
-    /* LOADER & MSG */
     .status-msg { text-align: center; padding: 50px; color: #64748b; font-size: 14px; }
     .spinner { width: 24px; height: 24px; border: 3px solid #e2e8f0; border-top-color: #0284c7; border-radius: 50%; margin: 0 auto 12px auto; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }

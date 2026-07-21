@@ -349,15 +349,6 @@
         letter-spacing: -0.5px;
     }
 
-    .sidebar-brand h2 span {
-        font-size: 10px;
-        background: #e0f2fe;
-        color: #0284c7;
-        padding: 2px 6px;
-        border-radius: 6px;
-        margin-left: 4px;
-    }
-
     .sidebar-menu {
         display: flex;
         flex-direction: column;
@@ -584,10 +575,18 @@
     }
     .drawer-container {
         position: fixed;
-        top: 0; right: 0; width: 420px; height: 100vh;
+        top: 50%;                    
+        right: auto;                 
+        left: 50%;                   
+        transform: translate(-50%, -50%); 
+        width: 90%;                  
+        max-width: 480px;            
+        max-height: 90vh;            
+        overflow-y: auto;           
         background: #ffffff;
-        border-left: 1px solid #e2e8f0;
-        box-shadow: -10px 0 40px rgba(0,0,0,0.05);
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;         
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); 
         z-index: 101;
         padding: 32px;
         box-sizing: border-box;
@@ -643,6 +642,10 @@
         .sidebar-brand h2, .menu-text { display: none; }
         .sidebar-brand { justify-content: center; }
         .main-content { margin-left: 76px; padding: 24px; }
-        .drawer-container { width: 100%; }
+        .drawer-container { 
+            width: 95%; 
+            max-width: none;
+            padding: 20px;
+        }
     }
 </style>
